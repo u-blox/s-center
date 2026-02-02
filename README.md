@@ -37,6 +37,7 @@ The s‑center Wi‑Fi, Bluetooth and Bluetooth low energy module and configurat
 ## Supported Modules
 - **NORA-W36** - WiFi 4 & Bluetooth 5.3 module
 - **NORA-B26** - Bluetooth 6.0 module
+- **NORA-B27** - Bluetooth 6.0 module - Peripheral role only
 
 > **Note:** For other u-blox modules (ANNA-B, NINA-B/W, ODIN-W series), please use s-center classic.
 

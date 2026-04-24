@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But not the .gitignore itself
+!.gitignore
+
+# Allow the Guides folder and all its contents
+!Guides/
+!Guides/**

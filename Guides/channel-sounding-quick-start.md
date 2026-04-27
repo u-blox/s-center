@@ -26,6 +26,8 @@ Measure the distance between two u-blox Bluetooth LE devices using Channel Sound
 
 ![Two products in the left sidebar](images/cs-step0-products.png)
 
+> **Note:** Always check so you have the latest firmware on the devices. You can see if there are newer versions available on the right side pane in s-center. Channel sounding was introduced in u-connectXpress v3.4.0 so this is minimum required version.
+
 ### Step 1: Connect to Both Devices
 
 Click the **Connect** button for each product in the left sidebar to establish serial connections to both devices.
@@ -39,16 +41,25 @@ The Reflector needs to advertise for the Initator to find it so it needs and the
 3. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
 4. Click **Apply**.
 5. In the product menu for the **Initiator**. Click the **Bluetooth configuration** option.
-2. Select **Central** or **Central + Peripheral** mode. 
-3. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
-4. Click **Apply**.
+6. Select **Central** or **Central + Peripheral** mode. 
+7. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
+8. Click **Apply**.
 
 ![Configure Bluetooth mode](images/cs-step1-mode-configuration.png)
+
+The reflector also needs to advertise the correct services and characteristics for the Initiator to find it. Make sure that advertising is enabled.
+
+1. In the **Bluetooth configuration** widget, select the **Advertising** tab.
+2. Enable the Advertising mode to **Legacy Advertising**
+3. Scroll down to the bottom of the widget and check the **Persist to flash** checkbox if you want the setting to survive a reboot.
+4. Click **Apply and Start Advertising**
+
+![Configure Bluetooth mode](images/cs-step1a-advertising.png)
 
 Both devices need to allow bonding and they need to have sufficient security levels. For each device:
 
 1. In the **Bluetooth configuration** widget, select the **Security** tab.
-2. Enter the following values
+2. Enter the following values	
 	a. Pairing mode: **Enable**
 	b. I/O Capability: 2 - **Display Yes/No**
 	c. Security mode: 3 - **Auth. bonding (secure connections)**

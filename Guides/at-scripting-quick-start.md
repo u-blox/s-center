@@ -1,10 +1,10 @@
 # AT Scripting Quick Start Guide
 
-Automate AT command sequences on your u-blox module using the **AT Scripting widget** in s-center. The widget supports the full **ucxtool-compatible** script format with control flow, variables, wait conditions, and response parsing — plus a VS Code-like debugger with breakpoints and stepping.
+Automate AT command sequences on your u-blox module using the **AT Scripting widget** in s-center. The widget supports a full script format with control flow, variables, wait conditions, and response parsing â€” plus a debugger with breakpoints and stepping.
 
 ## Hardware Requirements
 
-- A u-blox module EVK (any supported model — Wi-Fi or Bluetooth depending on the script you want to run).
+- A u-blox module EVK (any supported model ï¿½ Wi-Fi or Bluetooth depending on the script you want to run).
 - A USB cable for connecting the EVK to your PC (included in the kit).
 - For Wi-Fi / MQTT examples: a Wi-Fi access point with internet access.
 
@@ -15,7 +15,7 @@ Automate AT command sequences on your u-blox module using the **AT Scripting wid
 
 ---
 
-## Section 1 — Widget Operation and Features
+## Section 1 ï¿½ Widget Operation and Features
 
 ### Opening the Widget
 
@@ -43,7 +43,7 @@ The widget is split into three areas:
 - **Line numbers** displayed in the left gutter.
 - **Undo / Redo** with `Ctrl+Z` / `Ctrl+Y`.
 - **Copy / Paste** with `Ctrl+C` / `Ctrl+V`.
-- **Current-line marker** — during execution, an arrow in the gutter shows which line is running, and the editor auto-scrolls to keep it visible.
+- **Current-line marker** ï¿½ during execution, an arrow in the gutter shows which line is running, and the editor auto-scrolls to keep it visible.
 
 ### Breakpoints
 
@@ -57,23 +57,23 @@ The widget is split into three areas:
 | Control | Shortcut | Description |
 |---------|----------|-------------|
 | **Run / Continue** | `F5` | Start execution, or continue from a paused state |
-| **Pause** | — | Pause execution at the next safe point |
+| **Pause** | ï¿½ | Pause execution at the next safe point |
 | **Stop** | `Shift+F5` | Cancel execution immediately |
 | **Restart** | `Ctrl+Shift+F5` | Reset to the start of the script (breakpoints are preserved) |
 | **Step** | `F10` | Execute one line, then pause |
 
 ### Execution States
 
-- **Running** — the script is actively executing.
-- **Paused** — the script is stopped at a breakpoint or after stepping.
-- **Stopped** — execution has finished, was cancelled, or has not started yet.
+- **Running** ï¿½ the script is actively executing.
+- **Paused** ï¿½ the script is stopped at a breakpoint or after stepping.
+- **Stopped** ï¿½ execution has finished, was cancelled, or has not started yet.
 
 ### File Operations
 
-- **Open** — load a script from a `.txt`, `.at`, or `.script` file.
-- **Save** (`Ctrl+S`) — save the current script to disk.
+- **Open** ï¿½ load a script from a `.txt`, `.at`, or `.script` file.
+- **Save** (`Ctrl+S`) ï¿½ save the current script to disk.
 
-Scripts saved by s-center are fully **ucxtool-compatible** — they can be edited externally and re-loaded.
+Scripts saved by s-center use a standard plain-text format â€” they can be edited externally and re-loaded.
 
 ### Open Terminal
 
@@ -92,11 +92,11 @@ The Terminal widget shows the full AT exchange leading up to any failure.
 
 ---
 
-## Section 2 — AT Scripts
+## Section 2 ï¿½ AT Scripts
 
 ### 2.1 Syntax Reference
 
-The scripting engine follows the **ucxtool AT script format**. A script is a plain-text file with one statement per line.
+A script is a plain-text file with one statement per line.
 
 #### Comments
 
@@ -115,7 +115,7 @@ AT+GMM
 AT+UBTLN="MyDevice"
 ```
 
-> **Note:** AT commands are always sent **sequentially** — the script never has more than one outstanding command on the serial port at a time.
+> **Note:** AT commands are always sent **sequentially** ï¿½ the script never has more than one outstanding command on the serial port at a time.
 
 #### Labels and `goto`
 
@@ -144,7 +144,7 @@ println("Counter is now {counter}")
 | `sleep(<seconds>)` | seconds | Pause for N seconds |
 | `wait(<ms>)` | milliseconds | Pause for N milliseconds |
 | `waitfor(<pattern> [, <timeoutSec>])` | seconds (default 30) | Wait for a URC line matching `<pattern>`; fail on timeout |
-| `waitforever()` | — | Wait indefinitely; only **Stop** can cancel |
+| `waitforever()` | ï¿½ | Wait indefinitely; only **Stop** can cancel |
 
 ```
 waitfor(+STARTUP)         # default 30 s timeout
@@ -158,11 +158,11 @@ wait(500)                 # 500 ms
 `response(<pattern>, <var1> [, <var2> ...])` first looks for `<pattern>` in the **last AT command response**, then falls back to **waiting for a URC** (default 30 s) if no match was found. The text after the matched pattern is split by commas and assigned to the listed variables.
 
 ```
-AT+UBTBD
-response(+UBTBD:, addr)              # "+UBTBD:AABBCCDDEEFF" ? addr = "AABBCCDDEEFF"
+AT+USYLA?
+response(+USYLA:, addr)               # "+USYLA:AABBCCDDEEFF" â†’ addr = "AABBCCDDEEFF"
 
-AT+USORD=1,512
-response(+USORD:, handle, data)      # "+USORD:1,hello" ? handle = "1", data = "hello"
+AT+USORS=0,512
+response(+USORS:, socket_id, data)   # "+USORS:0,hello" â†’ socket_id = "0", data = "hello"
 
 response(+UEVT:, code, status)       # waits for a URC if no prior match
 ```
@@ -201,7 +201,7 @@ for(i, 0, 5)
 :endfor_i
 ```
 
-The matching end-label **must be named `endfor_<variable>`** — the parser uses this name to bind the loop body. The variable iterates from start (inclusive) to end (exclusive).
+The matching end-label **must be named `endfor_<variable>`** ï¿½ the parser uses this name to bind the loop body. The variable iterates from start (inclusive) to end (exclusive).
 
 #### `while` Loops
 
@@ -215,16 +215,6 @@ endwhile()
 
 `while` / `endwhile()` pairs are matched by nesting depth, so loops can be nested freely.
 
-#### Legacy Statements
-
-For backwards compatibility with older ucxtool scripts, the following are also accepted:
-
-| Legacy form | Modern equivalent |
-|-------------|-------------------|
-| `SET name=value` | `set_variable(name, value)` |
-| `WAIT 500` (ms) | `wait(500)` |
-| `IF var==value GOTO label` | `if({var} == value, label)` |
-| `goto label` | `goto(label)` |
 
 ---
 
@@ -232,30 +222,31 @@ For backwards compatibility with older ucxtool scripts, the following are also a
 
 All examples below are complete, copy-pasteable scripts. Open the **Terminal widget** alongside the script editor to follow the AT exchange.
 
-#### Example 1 — BLE Scan
+#### Example 1 ï¿½ BLE Scan
 
 Scans for nearby Bluetooth LE advertisers for 10 seconds and prints the results.
 
 ```
 # --- BLE scan example ---
-# Make sure the module is in central / observer mode and BLE is enabled.
+# Make sure the module is in Central mode and BLE is enabled.
 
 AT
-AT+UBTLE=2          # Set BLE role to Central
-AT+CPWROFF          # Reboot to apply role
+AT+UBTM=1           # Set BLE mode to Central
+AT&W                # Store configuration
+AT+CPWROFF          # Reboot to apply
 waitfor(+STARTUP, 30)
 
-# Start a 10-second active scan
-AT+UBTD=3,10000
+# Start a 10-second active scan (type=0 all, mode=0 active, 10000 ms)
+AT+UBTD=0,0,10000
 
-# UBTD: discoveries arrive as URCs while scanning
+# +UBTD: discoveries arrive as URCs while scanning
 println("Scanning for 10 seconds...")
 sleep(11)
 
 println("Scan complete. See the Terminal widget for +UBTD: results.")
 ```
 
-#### Example 2 — BLE GATT Client
+#### Example 2 ï¿½ BLE GATT Client
 
 Connects to a peripheral by Bluetooth address, discovers a service, reads a characteristic, and disconnects.
 
@@ -266,31 +257,32 @@ Connects to a peripheral by Bluetooth address, discovers a service, reads a char
 set_variable(PEER_ADDR, AABBCCDDEEFF)
 
 AT
-AT+UBTLE=2          # Central role
-AT+CPWROFF
+AT+UBTM=1           # Central mode
+AT&W                # Store configuration
+AT+CPWROFF          # Reboot to apply
 waitfor(+STARTUP, 30)
 
-# Connect to the peer (type 0 = public address)
-AT+UBTACLC={PEER_ADDR}p
-response(+UEACLC:, conn_handle, type, addr)
+# Connect to the peer (public address)
+AT+UBTC={PEER_ADDR}p
+response(+UEBTC:, conn_handle, addr)
 println("Connected, handle = {conn_handle}")
 
 # Discover all primary services on the connection
-AT+UBTGDP={conn_handle}
+AT+UBTGPSD={conn_handle}
 sleep(2)
 
-# Read characteristic at handle 0x000E (example — adjust for your peer)
+# Read characteristic at handle 14 (example â€” adjust for your peer)
 AT+UBTGR={conn_handle},14
 response(+UBTGR:, rd_handle, value)
 println("Characteristic value: {value}")
 
 # Disconnect
-AT+UBTACLD={conn_handle}
-waitfor(+UUBTACLD:, 10)
+AT+UBTDC={conn_handle}
+waitfor(+UEBTDC:, 10)
 println("Disconnected.")
 ```
 
-#### Example 3 — Wi-Fi Station Connection
+#### Example 3 ï¿½ Wi-Fi Station Connection
 
 Joins a Wi-Fi access point, waits for an IP address, and prints the assigned address.
 
@@ -302,61 +294,58 @@ set_variable(SSID, MyAccessPoint)
 set_variable(PASSWORD, MySecretPassword)
 
 AT
-AT+UWSC=0,0,1                       # Activate config 0
-AT+UWSC=0,2,"{SSID}"                # SSID
-AT+UWSC=0,5,2                       # Authentication: WPA2
-AT+UWSC=0,8,"{PASSWORD}"            # Passphrase
-AT+UWSCA=0,3                        # Activate the configuration
+AT+UWSCP=0,"{SSID}"                # Set SSID
+AT+UWSSW=0,"{PASSWORD}",0           # Set password (WPA2/WPA3)
+AT+UWSC=0                           # Connect
 
-# Wait for the "station got IP" URC
-waitfor(+UUWLE:, 60)
+# Wait for the network interface to come up
+waitfor(+UEWSNU, 60)
 
 # Read the assigned IPv4 address
-AT+UNSTAT=0,101
-response(+UNSTAT:, iface, param, ip)
+AT+UWSNST=0
+response(+UWSNST:, iface, ip)
 println("Connected. IPv4 address: {ip}")
 ```
 
-#### Example 4 — MQTT Publish / Subscribe
+#### Example 4 ï¿½ MQTT Publish / Subscribe
 
 Connects to the public `broker.emqx.io` MQTT broker, subscribes to a topic, publishes a message, and waits for it to arrive back.
 
 ```
 # --- MQTT publish/subscribe example ---
-# Requires a Wi-Fi connection — run the Wi-Fi Station script first,
+# Requires a Wi-Fi connection â€” run the Wi-Fi Station script first,
 # or join the network manually before running this script.
 
 set_variable(BROKER, broker.emqx.io)
 set_variable(TOPIC, scenter/tutorial)
 set_variable(MESSAGE, Hello from s-center scripting)
 
-# Configure the MQTT client
-AT+UMQC=2,"{BROKER}"                # Broker hostname
-AT+UMQC=3,1883                      # Broker port
-AT+UMQC=0,"scenter-script-001"      # Client ID
+# Configure the MQTT client (host, port, client ID)
+AT+UMQCP=0,"{BROKER}",1883,"scenter-script-001"
 
 # Connect
-AT+UMQCO=1
-waitfor(+UUMQC:, 30)
+AT+UMQC=0
+waitfor(+UEMQC:, 30)
 
 # Subscribe to the topic (QoS 0)
-AT+UMQS="{TOPIC}",0
-waitfor(+UUMQS:, 10)
+AT+UMQS=0,0,"{TOPIC}"
+sleep(1)
 
 # Publish to the same topic
-AT+UMQP="{TOPIC}",0,0,"{MESSAGE}"
+AT+UMQPS=0,0,0,"{TOPIC}","{MESSAGE}"
 
-# Wait for the inbound message URC and extract it
-response(+UUMQM:, topic, qos, payload_len, payload)
+# Wait for the inbound message notification and read it
+waitfor(+UEMQD:, 30)
+AT+UMQRS=0
+response(+UMQRS:, mqtt_id, qos, topic, payload_len, payload)
 println("Received on {topic}: {payload}")
 
 # Disconnect
-AT+UMQCO=0
-waitfor(+UUMQC:, 10)
+AT+UMQDC=0
 println("Disconnected from broker.")
 ```
 
-> **Note on AT command syntax:** The exact parameter ordering for `AT+UWSC`, `AT+UMQC`, `AT+UBT*` and friends depends on the module and firmware version. Always cross-check against the official [u-connectXpress AT command manual](https://github.com/u-blox/u-connectXpress) for your specific module.
+> **Note on AT command syntax:** The examples above use NORA-W36 AT commands. The exact parameter ordering may vary by firmware version. Always cross-check against the official [u-connectXpress AT command manual](https://github.com/u-blox/u-connectXpress) for your specific module.
 
 ---
 
@@ -364,5 +353,5 @@ println("Disconnected from broker.")
 
 - Combine the examples above into longer end-to-end scripts (e.g. Wi-Fi ? MQTT ? publish telemetry in a loop).
 - Use **breakpoints + Step (F10)** to walk through a script line-by-line while watching the Terminal widget.
-- Save your scripts as `.script` files and share them with colleagues — they are fully ucxtool-compatible.
+- Save your scripts as `.script` files and share them with colleagues.
 - Browse the [u-connectXpress AT command manual](https://github.com/u-blox/u-connectXpress) for the full command reference.

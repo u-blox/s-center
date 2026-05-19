@@ -53,7 +53,5 @@ Download from [Releases](https://github.com/u-blox/s-center/releases)
 Download the MSIX package:
 - **s-center_x64.msix** - For 64-bit Windows (Intel/AMD processors)
 
-> **Note:** s-center requires 64-bit Windows.
-
 ## Links
 - [u-blox Website](https://www.u-blox.com)

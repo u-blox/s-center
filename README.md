@@ -56,5 +56,4 @@ Download the MSIX package:
 > **Note:** s-center requires 64-bit Windows.
 
 ## Links
-- [GitHub Repository](https://github.com/u-blox/s-center)
 - [u-blox Website](https://www.u-blox.com)

@@ -55,3 +55,5 @@ Download the MSIX package:
 
 ## Links
 - [u-blox Website](https://www.u-blox.com)
+- [u-connectXplorer App for iOS](https://apps.apple.com/us/app/u-connectxplorer/id6766648417)
+- [u-connectXplorer App for Android](https://play.google.com/store/apps/details?id=com.ublox.uconnectxplorer)

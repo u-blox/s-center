@@ -1,8 +1,14 @@
-# Channel Sounding Quick Start Guide
+# Channel Sounding quick start guide
 
 Measure the distance between two u-blox Bluetooth LE devices using Channel Sounding in s-center.
 
-## Hardware Requirements
+> **Roles used in this guide:**
+> - **Initiator**: scans, connects, and starts measurements
+> - **Reflector**: advertises and responds to the initiator
+>
+> Each step below explicitly indicates which role it applies to.
+
+## Hardware requirements
 
 - **Two** u-blox module EVKs with Channel Sounding support (e.g., EVK-NORA-B26)
   - https://www.u-blox.com/en/product/evk-nora-b26
@@ -12,49 +18,56 @@ Measure the distance between two u-blox Bluetooth LE devices using Channel Sound
 
 ## Prerequisites
 
-- Two u-blox modules with **Bluetooth LE 6.0 + Channel Sounding** capability
-- Both modules connected to your PC via USB
-- Both modules added as products in s-center
+- Initiator device must be flashed with an experimental release of u-connectXpress supporting Channel Sounding Initiator (e.g. [NORA-B26X-3.4.0-cs_initiator](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0-cs_initiator))
+- Reflector device must be flashed with a standard release of u-connectXpress supporting Channel Sounding (e.g. [NORA-B26X-3.4.0](https://github.com/u-blox/u-connectXpress/releases/tag/NORA-B26X-3.4.0))
 
 ## Steps
 
-### Step 0: Add Both Products in s-center
+### Step 1: Add both products in s-center
 
 1. Plug both EVK boards into your PC via USB.
 2. In s-center, click **Add Product** and add each device separately.
 3. You should see two products in the left sidebar.
+4. Click the **Connect** button for each product in the left sidebar to establish serial connections to both devices.
 
 ![Two products in the left sidebar](images/cs-step0-products.png)
 
 > **Note:** Always check so you have the latest firmware on the devices. You can see if there are newer versions available on the right side pane in s-center. Channel sounding was introduced in u-connectXpress v3.4.0 so this is minimum required version.
 
-### Step 1: Connect to Both Devices
-
-Click the **Connect** button for each product in the left sidebar to establish serial connections to both devices.
-
-### Step 2: Configure the Reflector
+### Step 2: Configure Bluetooth roles
 
 The Reflector needs to advertise for the Initator to find it so it needs and the Initiator needs to be able look for it so the correct Bluetooth modes needs to be configured.
+
+#### 2a) Configure the Reflector
 
 1. In the product menu for the **Reflector**. Click the **Bluetooth configuration** option.
 2. Select **Peripheral** or **Central + Peripheral** mode. 
 3. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
 4. Click **Apply**.
-5. In the product menu for the **Initiator**. Click the **Bluetooth configuration** option.
-6. Select **Central** or **Central + Peripheral** mode. 
-7. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
-8. Click **Apply**.
+
+#### 2b) Configure the Initiator
+
+1. In the product menu for the **Initiator**. Click the **Bluetooth configuration** option.
+2. Select **Central** or **Central + Peripheral** mode. 
+3. Check the **Persist to flash** checkbox if you want the setting to survive a reboot.
+4. Click **Apply**.
 
 ![Configure Bluetooth mode](images/cs-step1-mode-configuration.png)
 
+#### 2c) Configure advertising (Reflector only)
+
 The reflector also needs to advertise the correct services and characteristics for the Initiator to find it. Make sure that advertising is enabled.
 
-1. In the **Bluetooth configuration** widget, select the **Advertising** tab.
+1. [Reflector] In the **Bluetooth configuration** widget, select the **Advertising** tab.
 2. Enable the Advertising mode to **Legacy Advertising**
 3. Scroll down to the bottom of the widget and check the **Persist to flash** checkbox if you want the setting to survive a reboot.
 4. Click **Apply and Start Advertising**
 
 ![Configure Bluetooth mode](images/cs-step1a-advertising.png)
+
+#### 2d) Configure security (both devices)
+
+The following configuration must be applied on both devices unless stated otherwise.
 
 Both devices need to allow bonding and they need to have sufficient security levels. For each device:
 
@@ -78,7 +91,9 @@ Next, we need to connect two devices. Keep the **Bluetooth configuration** widge
 
 Once connected, we need to bond the devices.
 
-1. Go back to the **Bluetooth configuration** widget, select the **Security** tab. If you closed the widget, just re-open it and select the **Security** tab.
+> **Tip:** Rename the two products in s-center to 'Initiator' and 'Reflector' to avoid confusion.
+
+1. [Initiator] Go back to the **Bluetooth configuration** widget, select the **Security** tab. If you closed the widget, just re-open it and select the **Security** tab.
 2. Take the address of the **Reflector** device. You can copy this in the **Bluetooth scan** widget or you can see it in the right side panel. 
 3. Enter the address in the **Bond with Device** field and click **Bond**. The two devices are no bonded.
 
@@ -86,7 +101,7 @@ Once connected, we need to bond the devices.
 
 This completes the Bluetooth configuration and you can close the open widgets.
 
-### Step 3: Set Up the Reflector
+### Step 3: Set up the Reflector
 
 On the device you want to use as the **Reflector**:
 
@@ -98,9 +113,9 @@ On the device you want to use as the **Reflector**:
 
 ![Reflector role configuration](images/cs-step5-reflector.png)
 
-> **Set up the Reflector first** — it needs to be ready before the Initiator connects.
+> **Set up the Reflector first** ï¿½ it needs to be ready before the Initiator connects.
 
-### Step 4: Set Up the Initiator
+### Step 4: Set up the Initiator
 
 On the device you want to use as the **Initiator**:
 
@@ -127,7 +142,7 @@ You should see:
 - **IFFT Magnitude Overlay** showing the frequency-domain analysis
 - **Live HUD** with current status, sample count, and latest distance
 
-### Step 7: Done!
+### Step 6: Done!
 
 Congratulations! You are now measuring the distance between two Bluetooth LE devices using Channel Sounding.
 
@@ -151,9 +166,9 @@ You do not have to redo all steps above if you want to repeat the Channel Soundi
 | Channel Sounding won't start | Verify both roles are set (Reflector + Initiator), and a bonded BLE connection exists |
 | No Reflector in dropdown | Connect to the Reflector via Bluetooth Scan, or enter the handle manually |
 | Distance estimate seems wrong | Check signal quality with "Show noise level"; try the other algorithm; reduce multipath interference |
-| Stream chart shows no updates | Check CS status in the HUD — click "Start CS" if not active; verify the Reflector is in range |
+| Stream chart shows no updates | Check CS status in the HUD ï¿½ click "Start CS" if not active; verify the Reflector is in range |
 
-## What's Next?
+## What's next?
 
 - Load and analyze saved IQ data in the **Inspect** tab
 - Compare algorithms using the **Simulation** tab with recorded data

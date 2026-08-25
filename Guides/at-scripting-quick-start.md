@@ -4,7 +4,7 @@ Automate AT command sequences on your u-blox module using the **AT Scripting wid
 
 ## Hardware Requirements
 
-- A u-blox module EVK (any supported model � Wi-Fi or Bluetooth depending on the script you want to run).
+- A u-blox module EVK (any supported model with Wi-Fi or Bluetooth depending on the script you want to run).
 - A USB cable for connecting the EVK to your PC (included in the kit).
 - For Wi-Fi / MQTT examples: a Wi-Fi access point with internet access.
 
@@ -15,12 +15,12 @@ Automate AT command sequences on your u-blox module using the **AT Scripting wid
 
 ---
 
-## Section 1 � Widget Operation and Features
+## Section 1.  Widget Operation and Features
 
 ### Opening the Widget
 
 1. Connect to your device from the left sidebar.
-2. Click the **product menu** (?) next to your device name.
+2. Click the **product menu** (three dots) next to your device name.
 3. Select **AT Scripting**.
 
 The AT Scripting widget opens on the canvas with an empty editor.
@@ -43,7 +43,7 @@ The widget is split into three areas:
 - **Line numbers** displayed in the left gutter.
 - **Undo / Redo** with `Ctrl+Z` / `Ctrl+Y`.
 - **Copy / Paste** with `Ctrl+C` / `Ctrl+V`.
-- **Current-line marker** � during execution, an arrow in the gutter shows which line is running, and the editor auto-scrolls to keep it visible.
+- **Current-line marker** during execution, an arrow in the gutter shows which line is running, and the editor auto-scrolls to keep it visible.
 
 ### Breakpoints
 
@@ -57,21 +57,21 @@ The widget is split into three areas:
 | Control | Shortcut | Description |
 |---------|----------|-------------|
 | **Run / Continue** | `F5` | Start execution, or continue from a paused state |
-| **Pause** | � | Pause execution at the next safe point |
+| **Pause** | `Space bar` | Pause execution at the next safe point |
 | **Stop** | `Shift+F5` | Cancel execution immediately |
 | **Restart** | `Ctrl+Shift+F5` | Reset to the start of the script (breakpoints are preserved) |
 | **Step** | `F10` | Execute one line, then pause |
 
 ### Execution States
 
-- **Running** � the script is actively executing.
-- **Paused** � the script is stopped at a breakpoint or after stepping.
-- **Stopped** � execution has finished, was cancelled, or has not started yet.
+- **Running** — the script is actively executing.
+- **Paused** — the script is stopped at a breakpoint or after stepping.
+- **Stopped** — execution has finished, was cancelled, or has not started yet.
 
 ### File Operations
 
-- **Open** � load a script from a `.txt`, `.at`, or `.script` file.
-- **Save** (`Ctrl+S`) � save the current script to disk.
+- **Open** — load a script from a `.txt`, `.at`, or `.script` file.
+- **Save** (`Ctrl+S`) — save the current script to disk.
 
 Scripts saved by s-center use a standard plain-text format — they can be edited externally and re-loaded.
 
@@ -92,7 +92,7 @@ The Terminal widget shows the full AT exchange leading up to any failure.
 
 ---
 
-## Section 2 � AT Scripts
+## Section 2 — AT Scripts
 
 ### 2.1 Syntax Reference
 
@@ -115,7 +115,7 @@ AT+GMM
 AT+UBTLN="MyDevice"
 ```
 
-> **Note:** AT commands are always sent **sequentially** � the script never has more than one outstanding command on the serial port at a time.
+AT commands are always sent **sequentially** — the script never
 
 #### Labels and `goto`
 
@@ -144,7 +144,7 @@ println("Counter is now {counter}")
 | `sleep(<seconds>)` | seconds | Pause for N seconds |
 | `wait(<ms>)` | milliseconds | Pause for N milliseconds |
 | `waitfor(<pattern> [, <timeoutSec>])` | seconds (default 30) | Wait for a URC line matching `<pattern>`; fail on timeout |
-| `waitforever()` | � | Wait indefinitely; only **Stop** can cancel |
+| `waitforever()` | — | Wait indefinitely
 
 ```
 waitfor(+STARTUP)         # default 30 s timeout
@@ -201,7 +201,7 @@ for(i, 0, 5)
 :endfor_i
 ```
 
-The matching end-label **must be named `endfor_<variable>`** � the parser uses this name to bind the loop body. The variable iterates from start (inclusive) to end (exclusive).
+**must be named `endfor_<variable>`** — the parser
 
 #### `while` Loops
 
@@ -222,7 +222,7 @@ endwhile()
 
 All examples below are complete, copy-pasteable scripts. Open the **Terminal widget** alongside the script editor to follow the AT exchange.
 
-#### Example 1 � BLE Scan
+#### Example 1 — BLE Scan
 
 Scans for nearby Bluetooth LE advertisers for 10 seconds and prints the results.
 
@@ -246,7 +246,7 @@ sleep(11)
 println("Scan complete. See the Terminal widget for +UBTD: results.")
 ```
 
-#### Example 2 � BLE GATT Client
+#### Example 2 — BLE GATT Client
 
 Connects to a peripheral by Bluetooth address, discovers a service, reads a characteristic, and disconnects.
 
@@ -282,7 +282,7 @@ waitfor(+UEBTDC:, 10)
 println("Disconnected.")
 ```
 
-#### Example 3 � Wi-Fi Station Connection
+#### Example 3 — Wi-Fi Station Connection
 
 Joins a Wi-Fi access point, waits for an IP address, and prints the assigned address.
 
@@ -307,7 +307,7 @@ response(+UWSNST:, iface, ip)
 println("Connected. IPv4 address: {ip}")
 ```
 
-#### Example 4 � MQTT Publish / Subscribe
+#### Example 4 — MQTT Publish / Subscribe
 
 Connects to the public `broker.emqx.io` MQTT broker, subscribes to a topic, publishes a message, and waits for it to arrive back.
 
